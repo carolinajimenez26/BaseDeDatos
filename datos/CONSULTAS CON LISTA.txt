@@ -1,7 +1,7 @@
 
 
---Actulizar notas 
-todas las notas que estan por fuera del rango deben actualizarce a los topes establecidos, 
+--Actulizar notas
+todas las notas que estan por fuera del rango deben actualizarce a los topes establecidos,
 en el caso de negativos a cero y en otro caso a 100 para los mayores.
 
 --Creación segunda tabla
@@ -10,8 +10,8 @@ matricula, promedio (equivale al promedio de las 3 notas de la lista),
   estado(perdido < 60, entre 60 y 79 aceptable, 80 y 90 bueno, excelente para el resto)
 
   --insertar datos segunda tabla PROMEDIO
- (EX1+EX2+EX3)/3 FROM NOTAS; 
- 
+ (EX1+EX2+EX3)/3 FROM NOTAS;
+
 
 --CONSULTAS  SUGERENCIAS
 
