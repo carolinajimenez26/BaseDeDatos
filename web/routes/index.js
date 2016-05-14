@@ -5,11 +5,11 @@ var bodyParser = require('body-parser');//para sacar los datos de los formulario
 var mysql = require('mysql');//bases de datos
 
 
-function consult(connection, socket, callback){
+function consult(connection, socket, table, callback){
   if(connection === undefined){
     console.error('No se ha definido la conexión ');
   }else{
-    var query = connection.query('SELECT * FROM alumnos',
+    var query = connection.query('SELECT * FROM '+table,
       function(error, rows){
         if(error){
           throw error;
@@ -28,14 +28,16 @@ function emitter(socket, ans){
 }
 
 function handleAlumnos(socket, info, connection){
-  var rows = consult(connection, socket, emitter);
+  var rows = consult(connection, socket, "alumnos", emitter);
+}
+
+function handleNotas(socket, info, connection){
+  var rows = consult(connection, socket, "notas", emitter);
 }
 
 //---------------Exportaciones-------------------------
 
 module.exports = function(app, mountPoint){
-
-  //connection = StartBD();
 
   /*----------BASES DE DATOS--------------*/
 
@@ -79,7 +81,7 @@ module.exports = function(app, mountPoint){
       console.log("The client is ready.");
       var path = info.path;
       var data = info.data;
-      if (path === '/fdgdg') {
+      if (path === '/notas') {
         handleNotas(socket, info, connection);
       } else if (path === '/alumnos') {
         handleAlumnos(socket, info, connection);
