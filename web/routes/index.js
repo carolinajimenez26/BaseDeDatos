@@ -4,6 +4,49 @@ var bodyParser = require('body-parser');//para sacar los datos de los formulario
 
 var mysql = require('mysql');//bases de datos
 
+function peorPromedio(connection, socket, path, callback){
+  var aux = 'SELECT alumnos.*, (EX1 + EX2 + EX3)/3 AS PROMEDIO \
+  FROM alumnos INNER JOIN notas ON alumnos.MATRICULA = notas.IDALUMNO \
+  ORDER BY PROMEDIO ASC \
+  LIMIT 1;';
+  if(connection === undefined){
+    console.error('No se ha definido la conexión ');
+  }else{
+    var query = connection.query(aux,
+      function(error, rows){
+        if(error){
+          throw error;
+        }else{
+          console.log(rows);
+          callback(socket, rows, path);//siguiente función, la que lo recibe
+          //connection.end();
+        }
+     }
+    );
+  }
+}
+
+function mejorPromedio(connection, socket, path, callback){
+  var aux = 'SELECT alumnos.*, (EX1 + EX2 + EX3)/3 AS PROMEDIO \
+  FROM alumnos INNER JOIN notas ON alumnos.MATRICULA = notas.IDALUMNO \
+  ORDER BY PROMEDIO DESC \
+  LIMIT 1;';
+  if(connection === undefined){
+    console.error('No se ha definido la conexión ');
+  }else{
+    var query = connection.query(aux,
+      function(error, rows){
+        if(error){
+          throw error;
+        }else{
+          console.log(rows);
+          callback(socket, rows, path);//siguiente función, la que lo recibe
+          //connection.end();
+        }
+     }
+    );
+  }
+}
 
 function consult(connection, socket, table, path, callback){
   if(connection === undefined){
@@ -35,6 +78,11 @@ function handleNotas(socket, info, path, connection){
   var rows = consult(connection, socket, "notas", path, emitter);
 }
 
+function handlePeorPromedio(socket, info, path, connection){
+  console.log("peorPromedio");
+  var rows = peorPromedio(connection, socket, path, emitter);
+}
+
 //---------------Exportaciones-------------------------
 
 module.exports = function(app, mountPoint){
@@ -56,6 +104,15 @@ module.exports = function(app, mountPoint){
     }
   });
 
+  connection.on('close', function(err) {
+    if (err) {
+      // Oops! Unexpected closing of connection, lets reconnect back.
+      connection = mysql.createConnection(connection.config);
+    } else {
+      console.log('Connection closed normally.');
+    }
+  });
+
   //---------------------Enrutamientos--------------------------
   router.get('/', function(req, res, next) {
     res.render('index.ejs', { title: 'Colegio'});
@@ -67,6 +124,10 @@ module.exports = function(app, mountPoint){
 
   router.get('/notas', function(req, res, next) {
     res.render('index.ejs', { title: 'Notas' });
+  });
+
+  router.get('/peorPromedio', function(req, res, next) {
+    res.render('index.ejs', { title: 'Peor Promedio' });
   });
 
   /*------------Sockets-----------------*/
@@ -85,6 +146,8 @@ module.exports = function(app, mountPoint){
         handleNotas(socket, info, path, connection);
       } else if (path === '/alumnos') {
         handleAlumnos(socket, info, path, connection);
+      } else if (path === '/peorPromedio'){
+        handlePeorPromedio(socket, info, path, connection);
       }
     });
 

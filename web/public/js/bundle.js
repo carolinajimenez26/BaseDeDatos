@@ -12,9 +12,11 @@ io.on('showData',function(data, path){
 
   console.log("path : " , path);
 
-  if(path === '/alumnos'){
+  if (path === '/alumnos'){
     var list = document.getElementById("tableAlumnos");
   } else if(path === '/notas') {
+    var list = document.getElementById("tableNotas");
+  } else if (path === '/peorPromedio') {
     var list = document.getElementById("tableNotas");
   }
 
