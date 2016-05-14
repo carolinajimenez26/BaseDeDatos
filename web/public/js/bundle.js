@@ -10,12 +10,17 @@ io.on('showData',function(data, path){
   //console.log("col : " + cols);
   //console.log("rows : " + rows);
 
-  var list = document.getElementById("tableU");
+  console.log("path : " , path);
+
+  if(path === '/alumnos'){
+    var list = document.getElementById("tableAlumnos");
+  } else if(path === '/notas') {
+    var list = document.getElementById("tableNotas");
+  }
 
   for(var i = 0; i < data.length; ++i){
    var tr = document.createElement('tr');
    for(var ind in data[i]) {
-        console.log(data[i][ind]);
         var td = tr.appendChild(document.createElement('td'));
         td.innerHTML = data[i][ind];
         list.appendChild(tr);

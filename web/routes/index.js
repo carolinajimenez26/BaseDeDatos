@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');//para sacar los datos de los formulario
 var mysql = require('mysql');//bases de datos
 
 
-function consult(connection, socket, table, callback){
+function consult(connection, socket, table, path, callback){
   if(connection === undefined){
     console.error('No se ha definido la conexión ');
   }else{
@@ -15,7 +15,7 @@ function consult(connection, socket, table, callback){
           throw error;
         }else{
           console.log(rows);
-          callback(socket, rows);//siguiente función, la que lo recibe
+          callback(socket, rows, path);//siguiente función, la que lo recibe
           //connection.end();
         }
      }
@@ -23,16 +23,16 @@ function consult(connection, socket, table, callback){
   }
 }
 
-function emitter(socket, ans){
-  socket.emit('showData', ans);//envia los datos
+function emitter(socket, ans, path){
+  socket.emit('showData', ans, path);//envia los datos
 }
 
-function handleAlumnos(socket, info, connection){
-  var rows = consult(connection, socket, "alumnos", emitter);
+function handleAlumnos(socket, info, path, connection){
+  var rows = consult(connection, socket, "alumnos", path, emitter);
 }
 
-function handleNotas(socket, info, connection){
-  var rows = consult(connection, socket, "notas", emitter);
+function handleNotas(socket, info, path, connection){
+  var rows = consult(connection, socket, "notas", path, emitter);
 }
 
 //---------------Exportaciones-------------------------
@@ -82,9 +82,9 @@ module.exports = function(app, mountPoint){
       var path = info.path;
       var data = info.data;
       if (path === '/notas') {
-        handleNotas(socket, info, connection);
+        handleNotas(socket, info, path, connection);
       } else if (path === '/alumnos') {
-        handleAlumnos(socket, info, connection);
+        handleAlumnos(socket, info, path, connection);
       }
     });
 

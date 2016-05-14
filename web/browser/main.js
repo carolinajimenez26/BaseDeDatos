@@ -9,8 +9,13 @@ io.on('showData',function(data, path){
   //console.log("col : " + cols);
   //console.log("rows : " + rows);
 
+  console.log("path : " , path);
 
-  var list = document.getElementById("tableU");
+  if(path === '/alumnos'){
+    var list = document.getElementById("tableAlumnos");
+  } else if(path === '/notas') {
+    var list = document.getElementById("tableNotas");
+  }
 
   for(var i = 0; i < data.length; ++i){
    var tr = document.createElement('tr');
