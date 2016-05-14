@@ -1,5 +1,6 @@
-var io = require('socket.io-client')();
 
+/*--------------SOCKETS-----------------*/
+var io = require('socket.io-client')();
 
 io.on('showData',function(data, path){
 
@@ -37,3 +38,13 @@ io.on('serverReady', function(data) {
     data: 'I am ready too, man.'
   });
 });
+
+/*----------FUNCIONES-------------*/
+
+function peorPromedio(){
+  io.emit('peorPromedio','/peorPromedio');
+}
+
+var pp = document.getElementById("peorPromedio");
+
+pp.addEventListener("click",peorPromedio);

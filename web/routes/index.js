@@ -78,8 +78,7 @@ function handleNotas(socket, info, path, connection){
   var rows = consult(connection, socket, "notas", path, emitter);
 }
 
-function handlePeorPromedio(socket, info, path, connection){
-  console.log("peorPromedio");
+function handlePeorPromedio(socket, path, connection){
   var rows = peorPromedio(connection, socket, path, emitter);
 }
 
@@ -126,10 +125,6 @@ module.exports = function(app, mountPoint){
     res.render('index.ejs', { title: 'Notas' });
   });
 
-  router.get('/peorPromedio', function(req, res, next) {
-    res.render('index.ejs', { title: 'Peor Promedio' });
-  });
-
   /*------------Sockets-----------------*/
   var io = app.io;
 
@@ -146,9 +141,12 @@ module.exports = function(app, mountPoint){
         handleNotas(socket, info, path, connection);
       } else if (path === '/alumnos') {
         handleAlumnos(socket, info, path, connection);
-      } else if (path === '/peorPromedio'){
-        handlePeorPromedio(socket, info, path, connection);
       }
+    });
+
+    socket.on('peorPromedio', function(path){
+      console.log("path : " , path);
+      handlePeorPromedio(socket, path, connection);
     });
 
   });
