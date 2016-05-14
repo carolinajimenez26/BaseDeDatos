@@ -17,8 +17,8 @@ io.on('showData',function(data, path){
     var list = document.getElementById("tableAlumnos");
   } else if(path === '/notas') {
     var list = document.getElementById("tableNotas");
-  } else if (path === '/peorPromedio') {
-    var list = document.getElementById("tableNotas");
+  } else if (path === '/peorPromedio' || path === '/mejorPromedio') {
+    var list = document.getElementById("tablePromedios");
   }
 
   for(var i = 0; i < data.length; ++i){
@@ -46,9 +46,15 @@ function peorPromedio(){
   io.emit('peorPromedio','/peorPromedio');
 }
 
-var pp = document.getElementById("peorPromedio");
+function mejorPromedio(){
+  io.emit('mejorPromedio','/mejorPromedio');
+}
+
+var pp = document.getElementById("peorPromedio"),
+    mp = document.getElementById("mejorPromedio");
 
 pp.addEventListener("click",peorPromedio);
+mp.addEventListener("click",mejorPromedio);
 
 },{"socket.io-client":6}],2:[function(require,module,exports){
 

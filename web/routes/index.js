@@ -82,6 +82,10 @@ function handlePeorPromedio(socket, path, connection){
   var rows = peorPromedio(connection, socket, path, emitter);
 }
 
+function handleMejorPromedio(socket, path, connection){
+  var rows = mejorPromedio(connection, socket, path, emitter);
+}
+
 //---------------Exportaciones-------------------------
 
 module.exports = function(app, mountPoint){
@@ -145,8 +149,11 @@ module.exports = function(app, mountPoint){
     });
 
     socket.on('peorPromedio', function(path){
-      console.log("path : " , path);
       handlePeorPromedio(socket, path, connection);
+    });
+
+    socket.on('mejorPromedio', function(path){
+      handleMejorPromedio(socket, path, connection);
     });
 
   });
