@@ -48,15 +48,6 @@ io.on('serverReady', function(data) {
   });
 });
 
-function NotasEsp(){
-  io.emit('notasEsp','/notasEsp');
-}
-
-
-function EstEspEx(){
-
-}
-
 var
     //alumnos
     o = document.getElementById("ordenelo"),//boton
@@ -82,7 +73,7 @@ var
     bne = document.getElementById("estEsp");//boton
 
 /*-------------------Eventos------------------------*/
-
+console.log(m10);
 pp.addEventListener("click",function(){
   io.emit('peorPromedio','/peorPromedio');
 });
@@ -97,6 +88,10 @@ o.addEventListener("click",function(){
   io.emit('ordenelo','/ordenadoAlfabeticamente');
 });
 
+m10.addEventListener("click",function(){
+  console.log("m10 event");
+});
+/*
 m10.addEventListener("click",function(){
   console.log("io emmit desde cliente");
   io.emit('mejores10','/mejores10');
@@ -127,8 +122,8 @@ eex.addEventListener("click",function(){
 });
 
 bne.addEventListener("click",function(){
-  io.emit('estEsp','/estEsp',txt);
-});
+  iio.emit('notasEsp','/notasEsp',txt);
+});*/
 
 },{"socket.io-client":6}],2:[function(require,module,exports){
 

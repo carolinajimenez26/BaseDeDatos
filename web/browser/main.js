@@ -88,6 +88,10 @@ o.addEventListener("click",function(){
 });
 
 m10.addEventListener("click",function(){
+  console.log("m10 event");
+});
+/*
+m10.addEventListener("click",function(){
   console.log("io emmit desde cliente");
   io.emit('mejores10','/mejores10');
 });
@@ -118,4 +122,4 @@ eex.addEventListener("click",function(){
 
 bne.addEventListener("click",function(){
   iio.emit('notasEsp','/notasEsp',txt);
-});
+});*/
