@@ -335,15 +335,15 @@ function handleLosers(socket, path, connection){
   var rows = Losers(connection, socket, path, emitter);
 }
 
-function handleNotasEsp(socket, path, connection){
+function handleNotasEsp(socket, path, matricula, connection){
   var rows = NotasEsp(connection, socket, path,matricula, emitter);
 }
 
-function handlePromEsp(socket, path, connection){
-  var rows = PromEsp(connection, socket, path, sel, prom emitter);
+function handlePromEsp(socket, path, sel, prom, connection){
+  var rows = PromEsp(connection, socket, path, sel, prom, emitter);
 }
 
-function handleEstEsp(socket, path, connection){
+function handleEstEsp(socket, path, ex, connection){
   var rows = EstEsp(connection, socket, path, ex, emitter);
 }
 
@@ -424,6 +424,38 @@ module.exports = function(app, mountPoint){
     socket.on('ordenelo', function(path){
       console.log("socket.on desde server");
       handleAlfabetico(socket, path, connection);
+    });
+
+    socket.on('mejores10', function(path){
+      handleMejores10(socket, path, connection);
+    });
+
+    socket.on('peores10', function(path){
+      handleMejores10(socket, path, connection);
+    });
+
+    socket.on('promExam', function(path){
+      handlePromExam(socket, path, connection);
+    });
+
+    socket.on('promEst', function(path){
+      handlePromEst(socket, path, connection);
+    });
+
+    socket.on('losers', function(path){
+      handleLosers(socket, path, connection);
+    });
+
+    socket.on('notasEsp', function(path, matricula){
+      handleNotasEsp(socket, path, matricula, connection);
+    });
+
+    socket.on('promEsp', function(path, sel, prom){
+      handlePromEsp(socket, path, sel, prom, connection);
+    });
+
+    socket.on('estEsp', function(path, ex){
+      handleEstEsp(socket, path, ex, connection);
     });
 
   });
