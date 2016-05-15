@@ -60,6 +60,38 @@ function OrdenadoAlfabeticamente(){
   io.emit('ordenelo','/ordenadoAlfabeticamente');
 }
 
+function Mejores10(){
+  io.emit('mejores10','/mejores10');
+}
+
+function Peores10(){
+  io.emit('peores10','/peores10');
+}
+
+function PromExam(){
+  io.emit('promExam','/promExam');
+}
+
+function PromEst(){
+  io.emit('promEst','/promEst');
+}
+
+function Losers(){
+  io.emit('losers','/losers');
+}
+
+function NotasEsp(){
+  io.emit('notasEsp','/notasEsp');
+}
+
+function PromEsp(){
+  io.emit('promEsp','/promEsp');
+}
+
+function EstEsp(){
+  io.emit('estEsp','/estEsp');
+}
+
 var pp = document.getElementById("peorPromedio"),
     mp = document.getElementById("mejorPromedio"),
     o = document.getElementById("ordenelo");
