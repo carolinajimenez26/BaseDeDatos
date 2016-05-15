@@ -1,18 +1,61 @@
-CREATE DATABASE taller4
+/*----CREACIÓN DE BD----------*/
+
+CREATE DATABASE taller4;
+USE taller4;
+
+/*----CREACIÓN DE TABLAS----------*/
 
 CREATE TABLE IF NOT EXISTS `alumnos` (
-  `MATRICULA` varchar(20) NOT NULL,
-  `NOMBRE` varchar(20) NOT NULL,
+  `MATRICULA` varchar(10) NOT NULL,
+  `NOMBRES` varchar(20) NOT NULL,
+  `APELLIDOS` varchar(20) NOT NULL,
   PRIMARY KEY (`MATRICULA`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 CREATE TABLE IF NOT EXISTS `notas` (
-  `IDALUMNO` varchar(20) NOT NULL,
-  `EX1` FLOAT,
-  `EX2` FLOAT,
-  `EX3` FLOAT,
+  `IDALUMNO` varchar(10) NOT NULL,
+  `EX1` FLOAT(4,2) unsigned, # xx,yy
+  `EX2` FLOAT(4,2) unsigned, #no se permiten valores negativos, pasan a ser cero
+  `EX3` FLOAT(4,2) unsigned,
   PRIMARY KEY (`IDALUMNO`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+/*----CREACIÓN DE TRIGGERS----------*/
+
+-- TRIGGER para poner las notas que se pasan de 100 a 100
+delimiter //
+  CREATE TRIGGER menor_a_100
+  BEFORE INSERT ON `notas`
+  FOR EACH ROW
+  BEGIN
+    IF NEW.EX1 > 100 THEN
+      SET NEW.EX1 = 100;
+    ELSEIF NEW.EX2 > 100 THEN
+      SET NEW.EX2 = 100;
+    ELSEIF NEW.EX3 > 100 THEN
+      SET NEW.EX3 = 100;
+    END IF;
+  END;//
+delimiter;
+
+-- TRIGGER para poner las notas que se pasan de 100 a 100 con los updates
+delimiter //
+  CREATE TRIGGER menor_a_100_updates
+  BEFORE UPDATE ON `notas`
+  FOR EACH ROW
+  BEGIN
+    IF NEW.EX1 > 100 THEN
+      SET NEW.EX1 = 100;
+    ELSEIF NEW.EX2 > 100 THEN
+      SET NEW.EX2 = 100;
+    ELSEIF NEW.EX3 > 100 THEN
+      SET NEW.EX3 = 100;
+    END IF;
+  END;//
+delimiter;
+
+
+/*--------INSERCIONES---------*/
 
 INSERT INTO alumnos (`MATRICULA`,`NOMBRES`,`APELLIDOS`) VALUES
 ("165229",	"Adolfo",	"Cámara E."),
@@ -97,8 +140,130 @@ INSERT INTO alumnos (`MATRICULA`,`NOMBRES`,`APELLIDOS`) VALUES
 ("5931120082",	"MAURICIO",	"VICENTE NIETO"),
 ("5931120052",	"KATHERINE",	"ZULUAGA LONDOÑO");
 
-#Hacerlos mayusculas
-
-UPDATE alumnos SET NOMBRE = UPPER(NOMBRE)
-
 INSERT INTO notas (`IDALUMNO`,`EX1`,`EX2`,`EX3`) VALUES
+("165229",	"93",	"87",	"0"),
+("601705",	"75",	"85",	"25"),
+("603277",	"86",	"66",	"38"),
+("178919",	"70",	"87",	"40"),
+("392212",	"51",	"88",	"40"),
+("540531",	"92",	"82",	"45"),
+("338849",	"98",	"74",	"48"),
+("767101",	"61",	"66",	"53"),
+("179050",	"70",	"93",	"55"),
+("586217",	"87",	"63",	"55"),
+("765022",	"42",	"79",	"58"),
+("750404",	"79",	"90",	"60"),
+("765088",	"78",	"93",	"63"),
+("765264",	"86",	"93",	"68"),
+("765274",	"87",	"88",	"70"),
+("712243",	"87",	"101",	"70"),
+("263835",	"63",	"101",	"75"),
+("585757",	"95",	"94",	"75"),
+("766142",	"77",	"93",	"75"),
+("603149",	"100",	"99",	"78"),
+("179788",	"87",	"98",	"78"),
+("189242",	"70",	"80",	"80"),
+("527892",	"99",	"98",	"80"),
+("179781",	"63",	"93",	"80"),
+("766861",	"100",	"90",	"80"),
+("764377",	"68",	"82",	"80"),
+("585749",	"88",	"87",	"83"),
+("767175",	"80",	"99",	"83"),
+("763924",	"94",	"91",	"83"),
+("766725",	"98",	"91",	"83"),
+("179931",	"58",	"87",	"88"),
+("766933",	"95",	"93",	"88"),
+("767828",	"98",	"101",	"88"),
+("765764",	"85",	"91",	"93"),
+("527755",	"70",	"51",	"95"),
+("528000",	"88",	"72",	"98"),
+("72961",	"84",	"66",	"73"),
+("70035",	"5",	"61",	"9"),
+("52606",	"96",	"31",	"8"),
+("74402",	"94",	"26",	"25"),
+("56477",	"93",	"50",	"49"),
+("75543",	"36",	"69",	"51"),
+("96888",	"16",	"106",	"51"),
+("69366",	"21",	"101",	"96"),
+("53159",	"71",	"28",	"35"),
+("93281",	"16",	"52",	"43"),
+("69404",	"56",	"98",	"108"),
+("51712",	"72",	"30",	"56"),
+("57790",	"45",	"17",	"59"),
+("72314",	"80",	"12",	"39"),
+("54270",	"81",	"2",	"-5"),
+("74248",	"69",	"109",	"91"),
+("87667",	"85",	"14",	"110"),
+("57917",	"61",	"86",	"28"),
+("71947",	"23",	"98",	"72"),
+("5931120029",	"106",	"40",	"8"),
+("5931120189",	"96",	"-1",	"88"),
+("5261120151",	"79",	"97",	"12"),
+("5931120103",	"48",	"23",	"75"),
+("5931120117",	"103",	"95",	"108"),
+("5931120081",	"5",	"-8",	"15"),
+("5981120098",	"50",	"56",	"-8"),
+("5931120014",	"108",	"54",	"50"),
+("5931120030",	"66",	"10",	"99"),
+("5931120019",	"53",	"72",	"70"),
+("5931120156",	"51",	"108",	"56"),
+("5931120115",	"75",	"30",	"84"),
+("5931120157",	"58",	"106",	"72"),
+("5931120009",	"70",	"21",	"53"),
+("5931120111",	"97",	"69",	"94"),
+("5931120100",	"-2",	"64",	"100"),
+("5931120099",	"75",	"54",	"92"),
+("5931120028",	"79",	"46",	"104"),
+("5931120155",	"58",	"33",	"35"),
+("5931120112",	"97",	"67",	"20"),
+("5931120139",	"-2",	"76",	"103"),
+("5931120020",	"14",	"35",	"22"),
+("5931120053",	"12",	"-5",	"57"),
+("5931120015",	"84",	"30",	"-6"),
+("5931120082",	"85",	"66",	"8"),
+("5931120052",	"11",	"27",	"99");
+
+
+/*----------UPDATES----------*/
+
+#Hacerlos mayusculas
+UPDATE alumnos SET NOMBRES = UPPER(NOMBRES);
+UPDATE alumnos SET APELLIDOS = UPPER(APELLIDOS);
+
+/*---------CONSULTAS---------*/
+
+--Estudiante con mejor promedio
+SELECT alumnos.*, (EX1 + EX2 + EX3)/3 AS PROMEDIO
+FROM alumnos INNER JOIN notas ON alumnos.MATRICULA = notas.IDALUMNO
+ORDER BY PROMEDIO DESC
+LIMIT 1;
+
+--ESTUDIANTE CON PEOR PROMEDIO
+SELECT alumnos.*, (EX1 + EX2 + EX3)/3 AS PROMEDIO
+FROM alumnos INNER JOIN notas ON alumnos.MATRICULA = notas.IDALUMNO
+ORDER BY PROMEDIO ASC
+LIMIT 1;
+
+--ESTUDIANTE CON MAYOR Y CON MENOR PROMEDIO EN PANTALLA.
+
+--LISTADO DE LOS 10 ESTUDIANTES CON PROMEDIO, ORDENADO DE LAS DOS FORMAS
+
+--NUMERO DE ESTUDIANTES POR DEBAJO Y POR ENCIMA DEL PROMEDIO
+
+--PROMEDIO GENERAL POR EXAMEN
+
+--LISTADO DE ESTUDIANTE CON PROMEDIO AGRUPADO POR ESTADO DE FORMA ASCEDENTE
+
+--LISTAR LOS ALUMNOS POR ORDEN ALFABÉTICO (PRIMERO APELLIDOS, DESPUÉS LOS NOMBRES)
+
+--LISTAR LAS NOTAS DE UN ESTUDIANTE ESPECIFICO (SEGUN LA MATRICULA O LOS NOMBRES)
+
+--LISTAR LOS ALUMNOS QUE TUVIERON UN PROMEDIO X (QUE PUEDAN INGRESAR EL PROMEDIO DESEADO)
+
+--LISTAR LOS ALUMNOS QUE TUVIERON UN PROMEDIO POR ENCIMA DE X
+
+--LISTAR LOS ALUMNOS QUE TUVIERON UN PROMEDIO POR DEBAJO DE X
+
+--LISTAR LOS ESTUDIANTES QUE PERDIERON X MATERIA (QUE PUEDA SELECCIONAR LA MATERIA)
+
+--AGRUPAR LOS ESTUDIANTES SEGÚN SU PROMEDIO (EXCELENTE, BUENO, ACEPTABLE, DEFICIENTE)

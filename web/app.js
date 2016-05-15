@@ -5,16 +5,17 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var engine = require('ejs');
 var app = express();
+app.io = require('socket.io')();
 
 // view engine setup
-app.engine('html', engine.renderFile);
-app.set('view engine', 'html');
+app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+var routes = require('./routes/index');
+routes(app, '/');//app,punto de montaje
+var users = require('./routes/users');
+users(app, '/users');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -22,8 +23,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
 
 // production error handler
 // no stacktraces leaked to user

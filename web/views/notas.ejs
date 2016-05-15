@@ -1,29 +1,27 @@
 <%include header %>
 	<%include nav-bar %>
 
-		<div class="row">
+	<div class="container">
 
-	      <div class="col s12 m8 l9"> <!-- Note that "m8 l9" was added -->
-	        <!-- Teal page content
+		<div class="row" id="title">
+			<h1><%= title %></h1>
+		</div>
 
-	              This content will be:
-	          9-columns-wide on large screens,
-	          8-columns-wide on medium screens,
-	          12-columns-wide on small screens  -->
+		<div>
 
-						<div class="container">
-							<div class="row" id="title">
-								<h1><%= title %></h1>
-							</div>
+			<table style="width:100%" id="tableNotas">
+				<tr>
+					<th>IDALUMNO</th>
+					<th>EX1</th>
+					<th>EX2</th>
+					<th>EX3</th>
+				</tr>
+				<tr>
+				</tr>
+			</table>
 
-							<div class="row">
-								<p>Base de datos para colegio</p>
-							</div>
+		</div>
 
-						</div>
-
-	      </div>
-
-	    </div>
+	</div>
 
 <%include footer %>
