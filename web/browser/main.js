@@ -20,6 +20,13 @@ io.on('showData',function(data, path){
     var list = document.getElementById("tablePromedios");
   }
 
+  var tr = document.createElement('tr');
+  for(var i = 0; i < Object.keys(data[0]).length; ++i){
+   var th = document.createElement('th');
+   th.innerHTML = Object.keys(data[0])[i];
+   list.appendChild(th);
+  }
+
   for(var i = 0; i < data.length; ++i){
    var tr = document.createElement('tr');
    for(var ind in data[i]) {
