@@ -323,6 +323,30 @@ function handlePeores10(socket, path, connection){
   var rows = peores10(connection, socket, path, emitter);
 }
 
+function handlePromExam(socket, path, connection){
+  var rows = PromExam(connection, socket, path, emitter);
+}
+
+function handlePromEst(socket, path, connection){
+  var rows = PromEst(connection, socket, path, emitter);
+}
+
+function handleLosers(socket, path, connection){
+  var rows = Losers(connection, socket, path, emitter);
+}
+
+function handleNotasEsp(socket, path, connection){
+  var rows = NotasEsp(connection, socket, path,matricula, emitter);
+}
+
+function handlePromEsp(socket, path, connection){
+  var rows = PromEsp(connection, socket, path, sel, prom emitter);
+}
+
+function handleEstEsp(socket, path, connection){
+  var rows = EstEsp(connection, socket, path, ex, emitter);
+}
+
 /*---------------EXPORTS------------------------*/
 
 module.exports = function(app, mountPoint){
