@@ -17,10 +17,11 @@ io.on('showData',function(data, path){
     var list = document.getElementById("tableAlumnos");
   } else if(path === '/notas') {
     var list = document.getElementById("tableNotas");
-  } else if (path === '/peorPromedio' || path === '/mejorPromedio') {
-    var list = document.getElementById("tablePromedios");
+  } else {
+    var list = document.getElementById("tableGeneral");
   }
 
+  //CONSTRUYE LA TABLA HTML
   var tr = document.createElement('tr');
   for(var i = 0; i < Object.keys(data[0]).length; ++i){
    var th = document.createElement('th');

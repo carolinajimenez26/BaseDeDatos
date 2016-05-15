@@ -1,8 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser');//para sacar los datos de los formularios
+/*----------------------REQUIRES---------------------*/
+var express = require('express'),
+    router = express.Router(),
+    bodyParser = require('body-parser'),
+    mysql = require('mysql');//bases de datos
 
-var mysql = require('mysql');//bases de datos
+/*----------------------QUERIES------------------------*/
 
 function peorPromedio(connection, socket, path, callback){
   var aux = 'SELECT alumnos.*, (EX1 + EX2 + EX3)/3 AS PROMEDIO \
@@ -70,6 +72,203 @@ function OrdenadoAlfabeticamente(connection, socket, path, callback){
   }
 }
 
+//lista los 10 estudiantes con mejor promedio
+function mejores10(connection, socket, path, callback){
+  var aux = 'SELECT alumnos.*, (EX1 + EX2 + EX3)/3 AS PROMEDIO \
+  FROM alumnos INNER JOIN notas ON alumnos.MATRICULA = notas.IDALUMNO \
+  ORDER BY PROMEDIO DESC \
+  LIMIT 10;';
+  if(connection === undefined){
+    console.error('No se ha definido la conexión ');
+  }else{
+    var query = connection.query(aux,
+      function(error, rows){
+        if(error){
+          throw error;
+        }else{
+          console.log(rows);
+          callback(socket, rows, path);//siguiente función, la que lo recibe
+          //connection.end();
+        }
+     }
+    );
+  }
+}
+
+//lista los 10 estudiantes con peor promedio
+function peores10(connection, socket, path, callback){
+  var aux = 'SELECT alumnos.*, (EX1 + EX2 + EX3)/3 AS PROMEDIO \
+  FROM alumnos INNER JOIN notas ON alumnos.MATRICULA = notas.IDALUMNO \
+  ORDER BY PROMEDIO ASC \
+  LIMIT 10;';
+  if(connection === undefined){
+    console.error('No se ha definido la conexión ');
+  }else{
+    var query = connection.query(aux,
+      function(error, rows){
+        if(error){
+          throw error;
+        }else{
+          console.log(rows);
+          callback(socket, rows, path);//siguiente función, la que lo recibe
+          //connection.end();
+        }
+     }
+    );
+  }
+}
+
+//PROMEDIO GENERAL POR EXAMEN
+function PromExam(connection, socket, path, callback){
+  var aux = 'SELECT AVG(EX1) AS PROM_EX1, AVG(EX2) AS PROM_EX2, AVG(EX3) AS PROM_EX3, \
+             COUNT(IDALUMNO) AS CANT_ESTUDIANTES \
+             FROM notas;';
+  if(connection === undefined){
+    console.error('No se ha definido la conexión ');
+  }else{
+    var query = connection.query(aux,
+      function(error, rows){
+        if(error){
+          throw error;
+        }else{
+          console.log(rows);
+          callback(socket, rows, path);//siguiente función, la que lo recibe
+          //connection.end();
+        }
+     }
+    );
+  }
+}
+
+//LISTADO DE ESTUDIANTE CON PROMEDIO AGRUPADO POR ESTADO DE FORMA ASCEDENTE
+function PromEst(connection, socket, path, callback){
+  var aux = 'SELECT alumnos.*, ((EX1 + EX2 + EX3)/3) AS PROMEDIO, \
+             CASE WHEN ((EX1 + EX2 + EX3)/3) < 60 \
+                THEN "DEFICIENTE" ELSE \
+             CASE WHEN ((((EX1 + EX2 + EX3)/3) > 60) && (((EX1 + EX2 + EX3)/3) < 80)) \
+                THEN "ACEPTABLE" ELSE \
+             CASE WHEN (((EX1 + EX2 + EX3)/3) > 80 && ((EX1 + EX2 + EX3)/3) < 90) \
+                THEN "SOBRESALIENTE" ELSE \
+             CASE WHEN (((EX1 + EX2 + EX3)/3) > 90) \
+                THEN "EXCELENTE" \
+             END END END END AS ESTADO \
+             FROM alumnos INNER JOIN notas ON alumnos.MATRICULA = notas.IDALUMNO \
+             GROUP BY PROMEDIO ASC;';
+  if(connection === undefined){
+    console.error('No se ha definido la conexión ');
+  }else{
+    var query = connection.query(aux,
+      function(error, rows){
+        if(error){
+          throw error;
+        }else{
+          console.log(rows);
+          callback(socket, rows, path);//siguiente función, la que lo recibe
+          //connection.end();
+        }
+     }
+    );
+  }
+}
+
+//LISTAR LOS ESTUDIANTES QUE PERDIERON LA MATERIA (PROMEDIO DEFICIENTE)
+function Losers(connection, socket, path, callback){
+  var aux = 'SELECT alumnos.*, ((EX1 + EX2 + EX3)/3) AS PROMEDIO, \
+             CASE WHEN ((EX1 + EX2 + EX3)/3) < 60 \
+                THEN "DEFICIENTE" ELSE \
+             CASE WHEN ((((EX1 + EX2 + EX3)/3) > 60) && (((EX1 + EX2 + EX3)/3) < 80)) \
+                THEN "ACEPTABLE" ELSE \
+             CASE WHEN (((EX1 + EX2 + EX3)/3) > 80 && ((EX1 + EX2 + EX3)/3) < 90) \
+                THEN "SOBRESALIENTE" ELSE \
+             CASE WHEN (((EX1 + EX2 + EX3)/3) > 90) \
+                THEN "EXCELENTE" \
+             END END END END AS ESTADO \
+             FROM alumnos INNER JOIN notas ON alumnos.MATRICULA = notas.IDALUMNO \
+             HAVING ESTADO = "DEFICIENTE";';
+  if(connection === undefined){
+    console.error('No se ha definido la conexión ');
+  }else{
+    var query = connection.query(aux,
+      function(error, rows){
+        if(error){
+          throw error;
+        }else{
+          console.log(rows);
+          callback(socket, rows, path);//siguiente función, la que lo recibe
+          //connection.end();
+        }
+     }
+    );
+  }
+}
+
+//LISTAR LAS NOTAS DE UN ESTUDIANTE ESPECIFICO (SEGUN LA MATRICULA)
+function NotasEsp(connection, socket, path, matricula, callback){
+  var aux = 'SELECT * \
+             FROM alumnos INNER JOIN notas ON alumnos.MATRICULA = notas.IDALUMNO \
+             WHERE MATRICULA = "'+matricula+'";';
+  if(connection === undefined){
+    console.error('No se ha definido la conexión ');
+  }else{
+    var query = connection.query(aux,
+      function(error, rows){
+        if(error){
+          throw error;
+        }else{
+          console.log(rows);
+          callback(socket, rows, path);//siguiente función, la que lo recibe
+          //connection.end();
+        }
+     }
+    );
+  }
+}
+
+//LISTAR LOS ALUMNOS QUE TUVIERON UN PROMEDIO POR ENCIMA/DEBAJO DE X
+function PromEsp(connection, socket, path, sel,prom, callback){
+  var aux = 'SELECT alumnos.*, (EX1 + EX2 + EX3)/3 AS PROMEDIO \
+             FROM alumnos INNER JOIN notas ON alumnos.MATRICULA = notas.IDALUMNO \
+             WHERE PROMEDIO'+sel+prom+';';
+  if(connection === undefined){
+    console.error('No se ha definido la conexión ');
+  }else{
+    var query = connection.query(aux,
+      function(error, rows){
+        if(error){
+          throw error;
+        }else{
+          console.log(rows);
+          callback(socket, rows, path);//siguiente función, la que lo recibe
+          //connection.end();
+        }
+     }
+    );
+  }
+}
+
+//LISTAR LOS ESTUDIANTES QUE PERDIERON X EXAMEN
+function EstEsp(connection, socket, path, ex, callback){
+  var aux = 'SELECT * \
+             FROM alumnos \
+             WHERE '+ex+' < 60;';
+ if(connection === undefined){
+   console.error('No se ha definido la conexión ');
+ }else{
+   var query = connection.query(aux,
+     function(error, rows){
+       if(error){
+         throw error;
+       }else{
+         console.log(rows);
+         callback(socket, rows, path);//siguiente función, la que lo recibe
+         //connection.end();
+       }
+    }
+   );
+ }
+}
+
+//lista todo lo de X tabla
 function consult(connection, socket, table, path, callback){
   if(connection === undefined){
     console.error('No se ha definido la conexión ');
@@ -87,6 +286,8 @@ function consult(connection, socket, table, path, callback){
     );
   }
 }
+
+/*---------------------HANDLERS-------------------*/
 
 function emitter(socket, ans, path){
   console.log("emmiter");
@@ -114,11 +315,19 @@ function handleAlfabetico(socket, path, connection){
   var rows = OrdenadoAlfabeticamente(connection, socket, path, emitter);
 }
 
-//---------------Exportaciones-------------------------
+function handleMejores10(socket, path, connection){
+  var rows = mejores10(connection, socket, path, emitter);
+}
+
+function handlePeores10(socket, path, connection){
+  var rows = peores10(connection, socket, path, emitter);
+}
+
+/*---------------EXPORTS------------------------*/
 
 module.exports = function(app, mountPoint){
 
-  /*----------BASES DE DATOS--------------*/
+  /*----------DATA BASE--------------*/
 
   var connection = mysql.createConnection({
     host     : 'localhost',
@@ -144,7 +353,7 @@ module.exports = function(app, mountPoint){
     }
   });
 
-  //---------------------Enrutamientos--------------------------
+  /*---------------------ROUTINGS--------------------------*/
   router.get('/', function(req, res, next) {
     res.render('index.ejs', { title: 'Colegio'});
   });
@@ -158,10 +367,10 @@ module.exports = function(app, mountPoint){
   });
 
   router.get('/consultas', function(req, res, next) {
-    res.render('consultas.ejs', { title: 'Consultas' });
+    res.render('general.ejs', { title: 'Consultas' });
   });
 
-  /*------------Sockets-----------------*/
+  /*------------SOCKETS-----------------*/
   var io = app.io;
 
   io.on('connection', function (socket) {
