@@ -48,11 +48,15 @@ function mejorPromedio(connection, socket, path, callback){
   }
 }
 
-function consult(connection, socket, table, path, callback){
+function OrdenadoAlfabeticamente(connection, socket, path, callback){
+  console.log("funcion ordenado query");
+  var aux = 'SELECT * \
+  FROM alumnos \
+  ORDER BY NOMBRES, APELLIDOS ASC';
   if(connection === undefined){
     console.error('No se ha definido la conexión ');
   }else{
-    var query = connection.query('SELECT * FROM '+table,
+    var query = connection.query(aux,
       function(error, rows){
         if(error){
           throw error;
@@ -66,7 +70,26 @@ function consult(connection, socket, table, path, callback){
   }
 }
 
+function consult(connection, socket, table, path, callback){
+  if(connection === undefined){
+    console.error('No se ha definido la conexión ');
+  }else{
+    var query = connection.query('SELECT * FROM '+table,
+      function(error, rows){
+        if(error){
+          throw error;
+        }else{
+          //console.log(rows);
+          callback(socket, rows, path);//siguiente función, la que lo recibe
+          //connection.end();
+        }
+     }
+    );
+  }
+}
+
 function emitter(socket, ans, path){
+  console.log("emmiter");
   socket.emit('showData', ans, path);//envia los datos
 }
 
@@ -84,6 +107,11 @@ function handlePeorPromedio(socket, path, connection){
 
 function handleMejorPromedio(socket, path, connection){
   var rows = mejorPromedio(connection, socket, path, emitter);
+}
+
+function handleAlfabetico(socket, path, connection){
+  console.log("handleAlfabetico");
+  var rows = OrdenadoAlfabeticamente(connection, socket, path, emitter);
 }
 
 //---------------Exportaciones-------------------------
@@ -130,7 +158,7 @@ module.exports = function(app, mountPoint){
   });
 
   router.get('/consultas', function(req, res, next) {
-    res.render('consultas.ejs', { title: 'Notas' });
+    res.render('consultas.ejs', { title: 'Consultas' });
   });
 
   /*------------Sockets-----------------*/
@@ -158,6 +186,11 @@ module.exports = function(app, mountPoint){
 
     socket.on('mejorPromedio', function(path){
       handleMejorPromedio(socket, path, connection);
+    });
+
+    socket.on('ordenelo', function(path){
+      console.log("socket.on desde server");
+      handleAlfabetico(socket, path, connection);
     });
 
   });

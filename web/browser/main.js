@@ -12,7 +12,7 @@ io.on('showData',function(data, path){
 
   console.log("path : " , path);
 
-  if (path === '/alumnos'){
+  if (path === '/alumnos' || path === '/ordenadoAlfabeticamente'){
     var list = document.getElementById("tableAlumnos");
   } else if(path === '/notas') {
     var list = document.getElementById("tableNotas");
@@ -39,8 +39,6 @@ io.on('serverReady', function(data) {
   });
 });
 
-/*----------FUNCIONES-------------*/
-
 function peorPromedio(){
   io.emit('peorPromedio','/peorPromedio');
 }
@@ -49,8 +47,15 @@ function mejorPromedio(){
   io.emit('mejorPromedio','/mejorPromedio');
 }
 
+function OrdenadoAlfabeticamente(){
+  console.log("io emmit desde cliente");
+  io.emit('ordenelo','/ordenadoAlfabeticamente');
+}
+
 var pp = document.getElementById("peorPromedio"),
-    mp = document.getElementById("mejorPromedio");
+    mp = document.getElementById("mejorPromedio"),
+    o = document.getElementById("ordenelo");
 
 pp.addEventListener("click",peorPromedio);
 mp.addEventListener("click",mejorPromedio);
+o.addEventListener("click",OrdenadoAlfabeticamente);
