@@ -47,55 +47,75 @@ io.on('serverReady', function(data) {
   });
 });
 
-function peorPromedio(){
+var
+    //alumnos
+    o = document.getElementById("ordenelo"),//boton
+
+    //consultas
+    pp = document.getElementById("peorPromedio"),//boton
+    mp = document.getElementById("mejorPromedio"),//boton
+    m10 = document.getElementById("mejores10"),//boton
+    p10 = document.getElementById("Peores10"),//boton
+    avgex = document.getElementById("promExam"),//boton
+    estadoprom = document.getElementById("promEst"),//boton
+    l = document.getElementById("losers"),//boton
+
+    pei = document.getElementById("promedioEstInput"),//input text
+    smm = document.getElementById("selectorMayorMenor"),//selector
+    pe = document.getElementById("promEsp"),//boton
+
+    se = document.getElementById("selectorExamen"),//selector
+    eex = document.getElementById("estEspEx"),//boton
+
+    //notas
+    ne = document.getElementById("notasEsp"),//input text
+    bne = document.getElementById("estEsp");//boton
+
+/*-------------------Eventos------------------------*/
+
+pp.addEventListener("click",function(){
   io.emit('peorPromedio','/peorPromedio');
-}
+});
 
-function mejorPromedio(){
+mp.addEventListener("click",function(){
+  console.log("io emmit desde cliente");
   io.emit('mejorPromedio','/mejorPromedio');
-}
+});
 
-function OrdenadoAlfabeticamente(){
+o.addEventListener("click",function(){
   console.log("io emmit desde cliente");
   io.emit('ordenelo','/ordenadoAlfabeticamente');
-}
+});
 
-function Mejores10(){
+m10.addEventListener("click",function(){
+  console.log("io emmit desde cliente");
   io.emit('mejores10','/mejores10');
-}
+});
 
-function Peores10(){
+p10.addEventListener("click",function(){
   io.emit('peores10','/peores10');
-}
+});
 
-function PromExam(){
+avgex.addEventListener("click",function(){
   io.emit('promExam','/promExam');
-}
+});
 
-function PromEst(){
+estadoprom.addEventListener("click",function(){
   io.emit('promEst','/promEst');
-}
+});
 
-function Losers(){
+l.addEventListener("click",function(){
   io.emit('losers','/losers');
-}
+});
 
-function NotasEsp(){
-  io.emit('notasEsp','/notasEsp');
-}
+pe.addEventListener("click",function(){
+  io.emit('promEsp','/promEsp',prom,sel);
+});
 
-function PromEsp(){
-  io.emit('promEsp','/promEsp');
-}
+eex.addEventListener("click",function(){
+  io.emit('estEspEx','/estEspEx',op);
+});
 
-function EstEsp(){
-  io.emit('estEsp','/estEsp');
-}
-
-var pp = document.getElementById("peorPromedio"),
-    mp = document.getElementById("mejorPromedio"),
-    o = document.getElementById("ordenelo");
-
-pp.addEventListener("click",peorPromedio);
-mp.addEventListener("click",mejorPromedio);
-o.addEventListener("click",OrdenadoAlfabeticamente);
+bne.addEventListener("click",function(){
+  iio.emit('notasEsp','/notasEsp',txt);
+});

@@ -247,7 +247,7 @@ function PromEsp(connection, socket, path, sel,prom, callback){
 }
 
 //LISTAR LOS ESTUDIANTES QUE PERDIERON X EXAMEN
-function EstEsp(connection, socket, path, ex, callback){
+function EstEspEx(connection, socket, path, ex, callback){
   var aux = 'SELECT * \
              FROM alumnos \
              WHERE '+ex+' < 60;';
@@ -343,8 +343,12 @@ function handlePromEsp(socket, path, sel, prom, connection){
   var rows = PromEsp(connection, socket, path, sel, prom, emitter);
 }
 
-function handleEstEsp(socket, path, ex, connection){
-  var rows = EstEsp(connection, socket, path, ex, emitter);
+function handleEstEspEx(socket, path, ex, connection){
+  var rows = EstEspEx(connection, socket, path, ex, emitter);
+}
+
+function handleEstEsp(socket, path, matricula, connection){
+  var rows = EstEsp(connection, socket, path, matricula, emitter);
 }
 
 /*---------------EXPORTS------------------------*/
@@ -454,8 +458,8 @@ module.exports = function(app, mountPoint){
       handlePromEsp(socket, path, sel, prom, connection);
     });
 
-    socket.on('estEsp', function(path, ex){
-      handleEstEsp(socket, path, ex, connection);
+    socket.on('estEspEx', function(path, ex){
+      handleEstEspEx(socket, path, ex, connection);
     });
 
   });

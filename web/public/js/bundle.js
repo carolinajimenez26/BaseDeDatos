@@ -48,26 +48,87 @@ io.on('serverReady', function(data) {
   });
 });
 
-function peorPromedio(){
+function NotasEsp(){
+  io.emit('notasEsp','/notasEsp');
+}
+
+
+function EstEspEx(){
+
+}
+
+var
+    //alumnos
+    o = document.getElementById("ordenelo"),//boton
+
+    //consultas
+    pp = document.getElementById("peorPromedio"),//boton
+    mp = document.getElementById("mejorPromedio"),//boton
+    m10 = document.getElementById("mejores10"),//boton
+    p10 = document.getElementById("Peores10"),//boton
+    avgex = document.getElementById("promExam"),//boton
+    estadoprom = document.getElementById("promEst"),//boton
+    l = document.getElementById("losers"),//boton
+
+    pei = document.getElementById("promedioEstInput"),//input text
+    smm = document.getElementById("selectorMayorMenor"),//selector
+    pe = document.getElementById("promEsp"),//boton
+
+    se = document.getElementById("selectorExamen"),//selector
+    eex = document.getElementById("estEspEx"),//boton
+
+    //notas
+    ne = document.getElementById("notasEsp"),//input text
+    bne = document.getElementById("estEsp");//boton
+
+/*-------------------Eventos------------------------*/
+
+pp.addEventListener("click",function(){
   io.emit('peorPromedio','/peorPromedio');
-}
+});
 
-function mejorPromedio(){
+mp.addEventListener("click",function(){
+  console.log("io emmit desde cliente");
   io.emit('mejorPromedio','/mejorPromedio');
-}
+});
 
-function OrdenadoAlfabeticamente(){
+o.addEventListener("click",function(){
   console.log("io emmit desde cliente");
   io.emit('ordenelo','/ordenadoAlfabeticamente');
-}
+});
 
-var pp = document.getElementById("peorPromedio"),
-    mp = document.getElementById("mejorPromedio"),
-    o = document.getElementById("ordenelo");
+m10.addEventListener("click",function(){
+  console.log("io emmit desde cliente");
+  io.emit('mejores10','/mejores10');
+});
 
-pp.addEventListener("click",peorPromedio);
-mp.addEventListener("click",mejorPromedio);
-o.addEventListener("click",OrdenadoAlfabeticamente);
+p10.addEventListener("click",function(){
+  io.emit('peores10','/peores10');
+});
+
+avgex.addEventListener("click",function(){
+  io.emit('promExam','/promExam');
+});
+
+estadoprom.addEventListener("click",function(){
+  io.emit('promEst','/promEst');
+});
+
+l.addEventListener("click",function(){
+  io.emit('losers','/losers');
+});
+
+pe.addEventListener("click",function(){
+  io.emit('promEsp','/promEsp',prom,sel);
+});
+
+eex.addEventListener("click",function(){
+  io.emit('estEspEx','/estEspEx',op);
+});
+
+bne.addEventListener("click",function(){
+  io.emit('estEsp','/estEsp',txt);
+});
 
 },{"socket.io-client":6}],2:[function(require,module,exports){
 
