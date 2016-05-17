@@ -249,9 +249,10 @@ function PromEsp(connection, socket, path, prom, sel, callback){
 
 //LISTAR LOS ESTUDIANTES QUE PERDIERON X EXAMEN
 function EstEspEx(connection, socket, path, ex, callback){
-  var aux = 'SELECT * \
-             FROM alumnos \
+  var aux = 'SELECT alumnos.*, notas.'+ex+'\
+             FROM alumnos INNER JOIN notas\
              WHERE '+ex+' < 60;';
+  console.log(aux);
  if(connection === undefined){
    console.error('No se ha definido la conexión ');
  }else{

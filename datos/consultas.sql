@@ -323,6 +323,6 @@ FROM alumnos INNER JOIN notas ON alumnos.MATRICULA = notas.IDALUMNO
 HAVING PROMEDIO < '?';
 
 --LISTAR LOS ESTUDIANTES QUE PERDIERON X EXAMEN
-SELECT *
-FROM alumnos
-WHERE '?' < 60;
+SELECT alumnos.*, notas.'?'\
+FROM alumnos INNER JOIN notas\
+WHERE '?' < 60;';

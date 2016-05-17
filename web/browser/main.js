@@ -99,15 +99,22 @@ if ( document.URL.contains("/alumnos") ) {
         return;
       }
     });;//boton
-/*
+
     var se = document.getElementById("selectorExamen"),//selector
         eex = document.getElementById("estEspEx").addEventListener("click",function(){
-          op = "EX1";
-          io.emit('estEspEx','/estEspEx',op);
+          op = se.options[se.selectedIndex].text;
+          if(op == "Examen 1") var ans = "EX1";
+          else if(op == "Examen 2") var ans = "EX2";
+          else if(op == "Examen 3") var ans = "EX3";
+          else{
+            alert("Debe seleccionar un examen");
+            return;
+          }
+          io.emit('estEspEx','/estEspEx',ans);
         });;//boton
 
     //notas
-    var ne = document.getElementById("notasEsp"),//input text
+    /*var ne = document.getElementById("notasEsp"),//input text
         bne = document.getElementById("estEsp").addEventListener("click",function(){
           txt = "111022151";
           io.emit('notasEsp','/notasEsp',txt);
