@@ -47,79 +47,54 @@ io.on('serverReady', function(data) {
   });
 });
 
-var
     //alumnos
-    o = document.getElementById("ordenelo"),//boton
-
+    /*document.getElementById("ordenelo").addEventListener("click",function(){
+      io.emit('ordenelo','/ordenadoAlfabeticamente');
+      console.log("nada");
+    });//boton
+*/
     //consultas
-    pp = document.getElementById("peorPromedio"),//boton
-    mp = document.getElementById("mejorPromedio"),//boton
-    m10 = document.getElementById("mejores10"),//boton
-    p10 = document.getElementById("Peores10"),//boton
-    avgex = document.getElementById("promExam"),//boton
-    estadoprom = document.getElementById("promEst"),//boton
-    l = document.getElementById("losers"),//boton
+    var pp = document.getElementById("peorPromedio").addEventListener("click",function(){
+      console.log("peor");
+      io.emit('peorPromedio','/peorPromedio');
+    });//boton
+    var mp = document.getElementById("mejorPromedio").addEventListener("click",function(){
+      io.emit('mejorPromedio','/mejorPromedio');
+    });;//boton
+    var m10 = document.getElementById("mejores10").addEventListener("click",function(){
+      io.emit('mejores10','/mejores10');
+    });;//boton
+    var p10 = document.getElementById("Peores10").addEventListener("click",function(){
+      io.emit('peores10','/peores10');
+    });;//boton
+    var avgex = document.getElementById("promExam").addEventListener("click",function(){
+      io.emit('promExam','/promExam');
+    });;//boton
+    var estadoprom = document.getElementById("promEst").addEventListener("click",function(){
+      io.emit('promEst','/promEst');
+    });;//boton
+    var l = document.getElementById("losers").addEventListener("click",function(){
+      io.emit('losers','/losers');
+    });;//boton
+/*
+    var pei = document.getElementById("promedioEstInput"),//input text
+        smm = document.getElementById("selectorMayorMenor");//selector
+    var pe = document.getElementById("promEsp").addEventListener("click",function(){
+      prom = "60";
+      sel = "<";
+      io.emit('promEsp','/promEsp',prom,sel);
+    });;//boton
 
-    pei = document.getElementById("promedioEstInput"),//input text
-    smm = document.getElementById("selectorMayorMenor"),//selector
-    pe = document.getElementById("promEsp"),//boton
-
-    se = document.getElementById("selectorExamen"),//selector
-    eex = document.getElementById("estEspEx"),//boton
+    var se = document.getElementById("selectorExamen"),//selector
+        eex = document.getElementById("estEspEx").addEventListener("click",function(){
+          op = "EX1";
+          io.emit('estEspEx','/estEspEx',op);
+        });;//boton
 
     //notas
-    ne = document.getElementById("notasEsp"),//input text
-    bne = document.getElementById("estEsp");//boton
-
-/*-------------------Eventos------------------------*/
-
-pp.addEventListener("click",function(){
-  io.emit('peorPromedio','/peorPromedio');
-});
-
-mp.addEventListener("click",function(){
-  console.log("io emmit desde cliente");
-  io.emit('mejorPromedio','/mejorPromedio');
-});
-
-o.addEventListener("click",function(){
-  console.log("io emmit desde cliente");
-  io.emit('ordenelo','/ordenadoAlfabeticamente');
-});
-
-m10.addEventListener("click",function(){
-  console.log("m10 event");
-});
-/*
-m10.addEventListener("click",function(){
-  console.log("io emmit desde cliente");
-  io.emit('mejores10','/mejores10');
-});
-
-p10.addEventListener("click",function(){
-  io.emit('peores10','/peores10');
-});
-
-avgex.addEventListener("click",function(){
-  io.emit('promExam','/promExam');
-});
-
-estadoprom.addEventListener("click",function(){
-  io.emit('promEst','/promEst');
-});
-
-l.addEventListener("click",function(){
-  io.emit('losers','/losers');
-});
-
-pe.addEventListener("click",function(){
-  io.emit('promEsp','/promEsp',prom,sel);
-});
-
-eex.addEventListener("click",function(){
-  io.emit('estEspEx','/estEspEx',op);
-});
-
-bne.addEventListener("click",function(){
-  iio.emit('notasEsp','/notasEsp',txt);
-});*/
+    var ne = document.getElementById("notasEsp"),//input text
+        bne = document.getElementById("estEsp").addEventListener("click",function(){
+          txt = "111022151";
+          io.emit('notasEsp','/notasEsp',txt);
+        });;//boton
+        */
