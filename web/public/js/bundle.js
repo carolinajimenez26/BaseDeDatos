@@ -48,12 +48,13 @@ io.on('serverReady', function(data) {
   });
 });
 
-    //alumnos
-    /*document.getElementById("ordenelo").addEventListener("click",function(){
-      io.emit('ordenelo','/ordenadoAlfabeticamente');
-      console.log("nada");
-    });//boton
-*/
+if ( document.URL.contains("/alumnos") ) {
+  document.getElementById("ordenelo").addEventListener("click",function(){
+    io.emit('ordenelo','/ordenadoAlfabeticamente');
+    console.log("nada");
+  });//boton
+}else if ( document.URL.contains("/consultas") ){
+
     //consultas
     var pp = document.getElementById("peorPromedio").addEventListener("click",function(){
       console.log("peor");
@@ -99,6 +100,7 @@ io.on('serverReady', function(data) {
           io.emit('notasEsp','/notasEsp',txt);
         });;//boton
         */
+}
 
 },{"socket.io-client":6}],2:[function(require,module,exports){
 
