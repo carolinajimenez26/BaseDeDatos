@@ -1,0 +1,69 @@
+<%include header %>
+	<%include nav-bar %>
+
+	<div class="container">
+
+		<div class="row" id="title">
+			<h1><%= title %></h1>
+		</div>
+
+		<div>
+
+			<table style="width:100%" id="tableGeneral">
+			</table>
+
+		</div>
+
+    <ul>
+
+      <li><button type="button" id="peorPromedio">Peor promedio</button></li>
+   	  <li><button type="button" id="mejorPromedio">Mejor Promedio</button></li>
+      <li><button type="button" id="mejores10">Mejores 10</button></li>
+      <li><button type="button" id="Peores10">Peores 10</button></li>
+      <li><button type="button" id="promExam">Promedio general por examen</button></li>
+      <li><button type="button" id="promEst">Estudiantes agrupados por su estado de promedio</button></li>
+      <li><button type="button" id="losers">Estudiantes que perdieron la materia</button></li>
+
+      <hr>
+      <!--ALumnos con un promedio especifico POR ENCIMA/DEBAJO DE X-->
+      <li>
+        <div>
+          <p>Se listan los estudiantes con un promedio especifico:</p>
+
+          <div class="input-field col s12">
+    				<label for="Promedio">Promedio(solo numeros con punto flotante): </label><br>
+            <input type="text" class="validate" style="width:80px" id="promedioEstInput">
+          </div><!--Hay que analizar que no ingrese nada raro-->
+
+          <br><label>Selector</label>
+          <select class="browser-default" id="selectorMayorMenor">
+            <option value="" disabled selected>Menor o mayor</option>
+            <option value="<">Menor</option>
+            <option value=">">Mayor</option>
+          </select>
+
+					<div><button type="button" id="promEsp">Calcular</button></div>
+        </div>
+      </li>
+
+      <hr>
+      <!--LISTAR LOS ESTUDIANTES QUE PERDIERON X EXAMEN-->
+      <li>
+        <div>
+          <p>Se listan los estudiantes que perdieron cierto examen:</p>
+            <br><label>Seleccione el examen</label>
+              <select class="browser-default" id="selectorExamen">
+                <option value="" disabled selected>Examen#</option>
+                <option value="EX1">Examen 1</option>
+                <option value="EX2">Examen 2</option>
+                <option value="EX3">Examen 3</option>
+              </select>
+        </div>
+        <div><button type="button" id="estEspEx">Calcular</button></div>
+      </li>
+
+    </ul>
+
+	</div>
+
+<%include footer %>
