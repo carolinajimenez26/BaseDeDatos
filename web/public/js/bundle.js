@@ -12,10 +12,14 @@ io.on('showData',function(data, path){
   //console.log("rows : " + rows);
 
   console.log("path : " , path);
+  console.log("data : ", data);
+  if(data === ""){
+    alert("No existe resultado para esta tabla");
+  }
 
   if (path === '/alumnos' || path === '/ordenadoAlfabeticamente'){
     var list = document.getElementById("tableAlumnos");
-  } else if(path === '/notas' || path === '/notasEsp') {
+  } else if(path === '/notas' || path === '/notasEsp' || path === '/prom') {
     var list = document.getElementById("tableNotas");
   } else {
     var list = document.getElementById("tableGeneral");
@@ -122,6 +126,17 @@ if ( document.URL.contains("/alumnos") ) {
           alert("Error, intentelo de nuevo");
         }
       });;//boton
+
+  var sed = document.getElementById("selectorDebajoEncima"),
+      deprom = document.getElementById("deprom").addEventListener("click",function(){
+        var sel = sed.options[sed.selectedIndex].text;
+        if(sel == "Encima") io.emit('EncimaProm','/prom');
+        else if(sel == "Debajo") io.emit('DebajoProm','/prom');
+        else{
+          alert("Seleccione una opción válida");
+          return;
+        }
+      });;
 }
 
 },{"socket.io-client":6}],2:[function(require,module,exports){

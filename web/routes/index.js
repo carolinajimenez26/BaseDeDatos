@@ -270,6 +270,54 @@ function EstEspEx(connection, socket, path, ex, callback){
  }
 }
 
+function EncimaProm(connection, socket, path, callback){
+  var aux = 'SELECT COUNT(*) AS ENCIMAPROM \
+             FROM notas \
+             WHERE PROMEDIO > (SELECT ROUND(AVG(PROMEDIO)) \
+                               FROM notas \
+                               );';
+  console.log(aux);
+ if(connection === undefined){
+   console.error('No se ha definido la conexión ');
+ }else{
+   var query = connection.query(aux,
+     function(error, rows){
+       if(error){
+         throw error;
+       }else{
+         console.log(rows);
+         callback(socket, rows, path);//siguiente función, la que lo recibe
+         //connection.end();
+       }
+    }
+   );
+ }
+}
+
+function DebajoProm(connection, socket, path, callback){
+  var aux = 'SELECT COUNT(*) AS DEBAJOPROM \
+             FROM notas \
+             WHERE PROMEDIO < (SELECT ROUND(AVG(PROMEDIO)) \
+                               FROM notas \
+                               );';
+  console.log(aux);
+ if(connection === undefined){
+   console.error('No se ha definido la conexión ');
+ }else{
+   var query = connection.query(aux,
+     function(error, rows){
+       if(error){
+         throw error;
+       }else{
+         console.log(rows);
+         callback(socket, rows, path);//siguiente función, la que lo recibe
+         //connection.end();
+       }
+    }
+   );
+ }
+}
+
 //lista todo lo de X tabla
 function consult(connection, socket, table, path, callback){
   if(connection === undefined){
@@ -293,6 +341,7 @@ function consult(connection, socket, table, path, callback){
 
 function emitter(socket, ans, path){
   console.log("emmiter");
+  console.log(ans);
   socket.emit('showData', ans, path);//envia los datos
 }
 
@@ -351,6 +400,14 @@ function handleEstEspEx(socket, path, ex, connection){
 
 function handleEstEsp(socket, path, matricula, connection){
   var rows = EstEsp(connection, socket, path, matricula, emitter);
+}
+
+function handleDebajoProm(socket, path, connection){
+  var rows = DebajoProm(connection, socket, path, emitter);
+}
+
+function handleEncimaProm(socket, path, connection){
+  var rows = EncimaProm(connection, socket, path, emitter);
 }
 
 /*---------------EXPORTS------------------------*/
@@ -464,6 +521,13 @@ module.exports = function(app, mountPoint){
       handleEstEspEx(socket, path, ex, connection);
     });
 
+    socket.on('EncimaProm',function(path){
+      handleEncimaProm(socket, path, connection);
+    });
+
+    socket.on('DebajoProm',function(path){
+      handleDebajoProm(socket, path, connection);
+    });
   });
 
   app.use(mountPoint, router);
