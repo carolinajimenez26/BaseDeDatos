@@ -14,7 +14,7 @@ io.on('showData',function(data, path){
 
   if (path === '/alumnos' || path === '/ordenadoAlfabeticamente'){
     var list = document.getElementById("tableAlumnos");
-  } else if(path === '/notas') {
+  } else if(path === '/notas' || path === '/notasEsp') {
     var list = document.getElementById("tableNotas");
   } else {
     var list = document.getElementById("tableGeneral");
@@ -53,8 +53,6 @@ if ( document.URL.contains("/alumnos") ) {
     console.log("nada");
   });//boton
 }else if ( document.URL.contains("/consultas") ){
-
-    //consultas
     var pp = document.getElementById("peorPromedio").addEventListener("click",function(){
       console.log("peor");
       io.emit('peorPromedio','/peorPromedio');
@@ -112,12 +110,15 @@ if ( document.URL.contains("/alumnos") ) {
           }
           io.emit('estEspEx','/estEspEx',ans);
         });;//boton
-
-    //notas
-    /*var ne = document.getElementById("notasEsp"),//input text
-        bne = document.getElementById("estEsp").addEventListener("click",function(){
-          txt = "111022151";
+}else if ( document.URL.contains("/notas") ){
+  var ne = document.getElementById("notasEsp"),//input text
+      bne = document.getElementById("estEsp").addEventListener("click",function(){
+        var txt = ne.value;
+        console.log(txt);
+        if(txt.match(/^-?[0-9]*[0-9]+$/)){
           io.emit('notasEsp','/notasEsp',txt);
-        });;//boton
-        */
+        }else{
+          alert("Error, intentelo de nuevo");
+        }
+      });;//boton
 }
