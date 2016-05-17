@@ -225,10 +225,11 @@ function NotasEsp(connection, socket, path, matricula, callback){
 }
 
 //LISTAR LOS ALUMNOS QUE TUVIERON UN PROMEDIO POR ENCIMA/DEBAJO DE X
-function PromEsp(connection, socket, path, sel,prom, callback){
+function PromEsp(connection, socket, path, prom, sel, callback){
   var aux = 'SELECT alumnos.*, (EX1 + EX2 + EX3)/3 AS PROMEDIO \
              FROM alumnos INNER JOIN notas ON alumnos.MATRICULA = notas.IDALUMNO \
-             WHERE PROMEDIO'+sel+prom+';';
+             HAVING PROMEDIO'+sel+prom+';';
+  console.log(aux);
   if(connection === undefined){
     console.error('No se ha definido la conexión ');
   }else{

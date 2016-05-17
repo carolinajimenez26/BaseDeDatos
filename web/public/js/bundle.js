@@ -78,15 +78,29 @@ if ( document.URL.contains("/alumnos") ) {
     var l = document.getElementById("losers").addEventListener("click",function(){
       io.emit('losers','/losers');
     });;//boton
-/*
+
     var pei = document.getElementById("promedioEstInput"),//input text
         smm = document.getElementById("selectorMayorMenor");//selector
     var pe = document.getElementById("promEsp").addEventListener("click",function(){
-      prom = "60";
-      sel = "<";
-      io.emit('promEsp','/promEsp',prom,sel);
+      prom = pei.value;
+      if(prom == ""){
+        alert("Ingrese un promedio");
+        return;
+      }
+      if(smm.options[smm.selectedIndex].text == "Menor") var sel = "<";
+      else if(smm.options[smm.selectedIndex].text == "Mayor") var sel = ">";
+      else{
+        alert("No se seleccionó una opcion, intente de nuevo.");
+        return;
+      }
+      if(prom.match(/^-?[0-9]*[.][0-9]+$/)){//validar(prom)){// si no escribió nada raro
+        io.emit('promEsp','/promEsp',prom,sel);
+      }else{
+        alert("Error, intentelo de nuevo");
+        return;
+      }
     });;//boton
-
+/*
     var se = document.getElementById("selectorExamen"),//selector
         eex = document.getElementById("estEspEx").addEventListener("click",function(){
           op = "EX1";
